@@ -6,7 +6,7 @@ RUN apt-get update && apt-get dist-upgrade -y && \
     php5-imagick php5-imap php5-mcrypt php5-curl \
     php5-cli php5-gd php5-pgsql php5-sqlite \
     php5-common php-pear curl php5-json php5-redis php5-memcache \
-    gzip netcat drush mysql-client
+    gzip netcat mysql-client wget
 
 RUN curl -k https://ftp.drupal.org/files/projects/drupal-${DRUPAL_VERSION}.tar.gz | tar zx -C /var/www/
 RUN mv /var/www/drupal-${DRUPAL_VERSION} /var/www/drupal
@@ -45,6 +45,14 @@ VOLUME ["/volume"]
 ADD mailchimp-ca.sh /workdir/mailchimp-ca.sh
 RUN chmod a+x /workdir/mailchimp-ca.sh && bash /workdir/mailchimp-ca.sh
 RUN update-ca-certificates
+
+# Install drush
+ADD drush/drush_install.sh /workdir/drush_install.sh
+RUN chmod a+x /workdir/drush_install.sh && bash /workdir/drush_install.sh
+
+# Bad Bot Blocker configuration for nginx
+ADD config/badbot/blacklist.conf /etc/nginx/conf.d/blacklist.conf
+ADD config/badbot/blockips.conf /etc/nginx/conf.d/blockips.conf
 
 EXPOSE 5000
 EXPOSE 5005
