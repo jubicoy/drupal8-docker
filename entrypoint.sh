@@ -17,6 +17,8 @@ fi
 if [ ! -d /volume/default ]; then
   cp -rf /tmp/default/ /volume/
   cp /volume/default/default.settings.php /volume/default/settings.php
+  # Trust all hosts
+  echo "\$settings['trusted_host_patterns'] = array('.*',);" >> /volume/default/settings.php
 fi
 
 # Move Nginx configuration if does not exist
