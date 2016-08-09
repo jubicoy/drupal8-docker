@@ -1,7 +1,7 @@
 FROM jubicoy/nginx-php:latest
-ENV DRUPAL_VERSION 8.1.5
+ENV DRUPAL_VERSION 8.1.8
 
-RUN apt-get update && apt-get dist-upgrade -y && \
+RUN apt-get update && \
     apt-get -y install php5-fpm php5-mysql php-apc \
     php5-imagick php5-imap php5-mcrypt php5-curl \
     php5-cli php5-gd php5-pgsql php5-sqlite \
@@ -48,10 +48,6 @@ RUN update-ca-certificates
 # Install drush
 ADD drush/drush_install.sh /workdir/drush_install.sh
 RUN chmod a+x /workdir/drush_install.sh && bash /workdir/drush_install.sh
-
-# Bad Bot Blocker configuration for nginx
-ADD config/badbot/blacklist.conf /etc/nginx/conf.d/blacklist.conf
-ADD config/badbot/blockips.conf /etc/nginx/conf.d/blockips.conf
 
 EXPOSE 5000
 EXPOSE 5005
