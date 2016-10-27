@@ -30,6 +30,9 @@ ADD config/default.conf /workdir/default.conf
 RUN rm -rf /etc/nginx/conf.d/default.conf && ln -s /volume/conf/default.conf /etc/nginx/conf.d/default.conf
 ADD entrypoint.sh /workdir/entrypoint.sh
 
+RUN mkdir /workdir/drupal-config && chmod 777 /workdir/drupal-config
+ADD config/drupal-cache-config/* /workdir/drupal-config/
+
 RUN mkdir /volume && chmod 777 /volume
 RUN rm -rf /var/www/drupal/themes/ && rm -rf /var/www/drupal/modules/ && rm -rf /var/www/drupal/sites/default
 RUN ln -s /volume/themes/ /var/www/drupal/themes
