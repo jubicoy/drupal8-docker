@@ -41,7 +41,6 @@ if [ ! -d /var/www/drupal/sites/default ]; then
 
 fi
 
-chmod u+w /volume/default/
 
 if [ ! -d /volume/default ]; then
   cp -rf /tmp/default/ /volume/
@@ -52,6 +51,8 @@ if [ ! -d /volume/default ]; then
   #cat /workdir/drupal-config/settings.php >> /volume/default/settings.php
   cat /workdir/drupal-config/services.yml >> /var/www/drupal/sites/default/services.yml
 fi
+
+chmod 644 /volume/default/
 
 # Move Nginx configuration if does not exist
 if [ ! -f /volume/conf/default.conf ]; then
