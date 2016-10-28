@@ -41,6 +41,7 @@ if [ ! -d /var/www/drupal/sites/default ]; then
 
 fi
 
+chmod u+w /volume/default/
 
 if [ ! -d /volume/default ]; then
   cp -rf /tmp/default/ /volume/
