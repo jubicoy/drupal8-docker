@@ -14,11 +14,16 @@ if [ ! -d /volume/modules ]; then
   mkdir -p /volume/modules
 fi
 
+if [ ! -f /var/www/drupal/robots.txt ]; then
+  mv -f /workdir/robots.txt /volume/robots.txt
+fi
+
 if [ ! -d /var/www/drupal/sites/default ]; then
   # Copy initial sites and configuration
   cp -arf /tmp/sites/* /var/www/drupal/sites/
   cp /var/www/drupal/sites/example.settings.local.php /var/www/drupal/sites/default/settings.local.php
 
+  echo "Copying development.services.yml"
   # Download modules
   IFS=';' read -r -a modules <<< "$DRUPAL_MODULES"
   for module in "${modules[@]}"
@@ -38,16 +43,13 @@ fi
 
 
 if [ ! -d /volume/default ]; then
-  # settings.local.php tiedoston lisääminen antaa varoituksen drupalissa 
-# mv -f /workdir/drupal-config/settings.local.php /tmp/default/settings.local.php
-#  mv -f /workdir/drupal-config/settings.php /tmp/default/settings.php
-
   cp -rf /tmp/default/ /volume/
+  cp /var/www/drupal/sites/development.services.yml /volume/default/services.yml
   cp /volume/default/default.settings.php /volume/default/settings.php
   # Trust all hosts
-#  echo "\$settings['trusted_host_patterns'] = array('.*',); test" >> /volume/default/settings.php
-  cat /workdir/drupal-config/settings.php >> /volume/default/settings.php
-  cat /workdir/drupal-config/development.services.yml >> /var/www/drupal/sites/development.services.yml
+  echo "\$settings['trusted_host_patterns'] = array('.*',);" >> /volume/default/settings.php
+  #cat /workdir/drupal-config/settings.php >> /volume/default/settings.php
+  cat /workdir/drupal-config/services.yml >> /var/www/drupal/sites/default/services.yml
 fi
 
 # Move Nginx configuration if does not exist

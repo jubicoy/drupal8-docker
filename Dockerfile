@@ -11,6 +11,7 @@ RUN apt-get update && \
 RUN curl -k https://ftp.drupal.org/files/projects/drupal-${DRUPAL_VERSION}.tar.gz | tar zx -C /var/www/
 RUN mv /var/www/drupal-${DRUPAL_VERSION} /var/www/drupal
 RUN cp -rf /var/www/drupal/sites/default /tmp/
+RUN cp -f /var/www/drupal/robots.txt /workdir/
 
 # Composer for Sabre installation
 ENV COMPOSER_VERSION 1.0.0-alpha11
@@ -38,6 +39,7 @@ RUN rm -rf /var/www/drupal/themes/ && rm -rf /var/www/drupal/modules/ && rm -rf 
 RUN ln -s /volume/themes/ /var/www/drupal/themes
 RUN ln -s /volume/modules/ /var/www/drupal/modules
 RUN ln -s /volume/default/ /var/www/drupal/sites/default
+RUN rm -rf /var/www/drupal/robots.txt && ln -s /volume/robots.txt /var/www/drupal/robots.txt
 RUN chown -R 104:0 /var/www && chmod -R g+rw /var/www && \
     chmod a+x /workdir/entrypoint.sh && chmod g+rw /workdir
 
