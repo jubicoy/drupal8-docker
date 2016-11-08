@@ -1,12 +1,12 @@
-FROM jubicoy/nginx-php:latest
+FROM jubicoy/nginx-php:maintenance
 ENV DRUPAL_VERSION 8.2.2
 
 RUN apt-get update && \
-    apt-get -y install php5-fpm php5-mysql php-apc \
-    php5-imagick php5-imap php5-mcrypt php5-curl \
-    php5-cli php5-gd php5-pgsql php5-sqlite \
-    php5-common php-pear curl php5-json php5-redis php5-memcache \
-    gzip netcat mysql-client wget
+    apt-get -y install php7.0-fpm php-apcu php7.0-mysql \
+    php-imagick php7.0-imap php7.0-mcrypt php7.0-curl \
+    php7.0-cli php7.0-gd php7.0-pgsql php7.0-sqlite php7.0-zip \
+    php7.0-common php-pear curl php7.0-json php-redis php-memcache php7.0-mbstring \
+    gzip netcat mysql-client wget git
 
 RUN curl -k https://ftp.drupal.org/files/projects/drupal-${DRUPAL_VERSION}.tar.gz | tar zx -C /var/www/
 RUN mv /var/www/drupal-${DRUPAL_VERSION} /var/www/drupal
@@ -55,8 +55,8 @@ ADD drush/drush_install.sh /workdir/drush_install.sh
 RUN chmod a+x /workdir/drush_install.sh && bash /workdir/drush_install.sh
 
 # PHP max upload size
-RUN sed -i '/upload_max_filesize/c\upload_max_filesize = 250M' /etc/php5/fpm/php.ini
-RUN sed -i '/post_max_size/c\post_max_size = 250M' /etc/php5/fpm/php.ini
+RUN sed -i '/upload_max_filesize/c\upload_max_filesize = 250M' /etc/php/7.0/fpm/php.ini
+RUN sed -i '/post_max_size/c\post_max_size = 250M' /etc/php/7.0/fpm/php.ini
 
 EXPOSE 5000
 EXPOSE 5005

@@ -43,6 +43,13 @@ fi
 
 chmod -R 774 /volume/default/
 
+if [ -d /volume/default ]; then
+  # Run updatedb with drush
+  (cd /var/www/drupal/; drush updb)
+  # Apply pending entity schema updates
+  (cd /var/www/drupal/; drush entup)
+fi
+
 if [ ! -d /volume/default ]; then
   cp -rf /tmp/default/ /volume/
   cp /var/www/drupal/sites/development.services.yml /volume/default/services.yml
@@ -72,5 +79,6 @@ fi
 #chmod 444 /var/www/drupal/sites/default/settings.local.php
 #mv -f /workdir/drupal-config/development.services.yml /var/www/drupal/sites/development.services.yml
 rm -rf /workdir/drupal-config
+
 
 exec "/usr/bin/supervisord"
