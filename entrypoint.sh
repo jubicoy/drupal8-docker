@@ -62,9 +62,9 @@ fi
 
 # Move Nginx configuration if does not exist
 if [ ! -f /volume/conf/default.conf ]; then
-    # Move Nginx configuration to volume
-    mkdir -p /volume/conf/
-    mv /workdir/default.conf /volume/conf/default.conf
+# Move Nginx configuration to volume
+  mkdir -p /volume/conf/
+  mv /workdir/default.conf /volume/conf/default.conf
 fi
 
 if [ ! -f /tmp/dav_auth ]; then
