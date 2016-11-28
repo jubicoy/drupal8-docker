@@ -1,4 +1,4 @@
-FROM jubicoy/nginx-php:maintenance
+FROM jubicoy/nginx-php:php7
 ENV DRUPAL_VERSION 8.2.3
 
 RUN apt-get update && \
