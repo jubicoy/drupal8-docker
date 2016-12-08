@@ -38,6 +38,13 @@ if [ ! -d /var/www/drupal/sites/default ]; then
     echo "Downloading theme $theme"
     drush dl $theme -y --destination=/var/www/drupal/themes/
   done
+else
+  # Run updatedb with drush
+  echo "Running drush updb"
+  (cd /var/www/drupal/; drush updb -y)
+  # Apply pending entity schema updates
+  echo "Running drush entup"
+  (cd /var/www/drupal/; drush entup -y)
 fi
 
 if [ ! -d /volume/default ]; then
@@ -51,15 +58,6 @@ if [ ! -d /volume/default ]; then
 fi
 
 chmod -R 774 /volume/default/
-
-if [ -d /volume/default ]; then
-  # Run updatedb with drush
-  echo "Running drush updb"
-  (cd /var/www/drupal/; drush updb -y)
-  # Apply pending entity schema updates
-  echo "Running drush entup"
-  (cd /var/www/drupal/; drush entup -y)
-fi
 
 # Move Nginx configuration if does not exist
 if [ ! -f /volume/conf/default.conf ]; then
