@@ -1,5 +1,5 @@
 FROM jubicoy/nginx-php:php7
-ENV DRUPAL_VERSION 8.2.4
+ENV DRUPAL_VERSION 8.2.5
 
 RUN apt-get update && \
     apt-get -y install php7.0-fpm php-apcu php7.0-mysql \
@@ -40,6 +40,9 @@ RUN ln -s /volume/themes/ /var/www/drupal/themes
 RUN ln -s /volume/modules/ /var/www/drupal/modules
 RUN ln -s /volume/default/ /var/www/drupal/sites/default
 RUN rm -rf /var/www/drupal/robots.txt && ln -s /volume/robots.txt /var/www/drupal/robots.txt
+
+ADD config/nginx.conf /etc/nginx/nginx.conf
+
 RUN chown -R 104:0 /var/www && chmod -R g+rw /var/www && \
     chmod a+x /workdir/entrypoint.sh && chmod g+rw /workdir
 
