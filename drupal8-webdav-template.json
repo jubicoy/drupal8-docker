@@ -395,7 +395,7 @@
      "name": "DRUPAL_MODULES",
      "description": "Comma separated Drupal modules to install.",
      "required": false,
-     "value": "views;ctools;pathauto;token;admin_theme;admin_menu;adminimal_admin_menu;menu_block;localization_update;internationalization;redirect;variable;ckeditor;imce;filefield_sources;honeypot;typekit;transliteration;webform;mailsystem;smtp;paragraphs;entity;xml_sitemap;google_analytics;metatag;background_image_formatter;date;rules;entity;colorbox;libraries;block_class;admin_language;webform_reply_to;advagg;webform_reply_to;minify"
+     "value": "ctools;pathauto;token;imce;honeypot;yamlform;mailsystem;smtp;paragraphs;entity;entity_reference_revisions;xmlsitemap;google_analytics;metatag;background_image_formatter;advagg;menu_block;redirect;rules;google_tag;fontyourface;hotjar;colorbox;bootstrap;adminimal_theme"
     },
     {
      "name": "DRUPAL_THEMES",
