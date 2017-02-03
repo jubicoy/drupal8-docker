@@ -45,16 +45,16 @@ else
   # Apply pending entity schema updates
   echo "Running drush entup"
   (cd /var/www/drupal/; drush entup -y)
+  echo "Running drush cr"
+  (cd /var/www/drupal; drush cr)
 fi
 
 if [ ! -d /volume/default ]; then
   cp -rf /tmp/default/ /volume/
-  cp /var/www/drupal/sites/development.services.yml /volume/default/services.yml
+  cp /workdir/drupal-config/services.yml /volume/default/services.yml
   cp /volume/default/default.settings.php /volume/default/settings.php
   # Trust all hosts
   echo "\$settings['trusted_host_patterns'] = array('.*',);" >> /volume/default/settings.php
-  #cat /workdir/drupal-config/settings.php >> /volume/default/settings.php
-  cat /workdir/drupal-config/services.yml >> /var/www/drupal/sites/default/services.yml
 fi
 
 chmod -R 774 /volume/default/
@@ -72,11 +72,6 @@ if [ ! -f /tmp/dav_auth ]; then
 fi
 
 # Disable Drupal8 twig cache
-#mv -f /workdir/drupal-config/settings.local.php /volume/default/settings.local.php
-#mv -f /workdir/drupal-config/settings.php /volume/default/settings.php
-#chmod 444 /var/www/drupal/sites/default/settings.php
-#chmod 444 /var/www/drupal/sites/default/settings.local.php
-#mv -f /workdir/drupal-config/development.services.yml /var/www/drupal/sites/development.services.yml
 rm -rf /workdir/drupal-config
 
 
