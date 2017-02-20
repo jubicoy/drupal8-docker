@@ -14,6 +14,10 @@ if [ ! -d /volume/modules ]; then
   mkdir -p /volume/modules
 fi
 
+if [ ! -d /volume/libraries ]; then
+  mkdir -p /volume/libraries
+fi
+
 if [ ! -f /var/www/drupal/robots.txt ]; then
   mv -f /workdir/robots.txt /volume/robots.txt
 fi

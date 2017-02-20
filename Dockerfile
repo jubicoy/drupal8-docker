@@ -39,6 +39,7 @@ RUN rm -rf /var/www/drupal/themes/ && rm -rf /var/www/drupal/modules/ && rm -rf 
 RUN ln -s /volume/themes/ /var/www/drupal/themes
 RUN ln -s /volume/modules/ /var/www/drupal/modules
 RUN ln -s /volume/default/ /var/www/drupal/sites/default
+RUN ln -s /volume/libraries/ /var/www/drupal/libraries
 RUN rm -rf /var/www/drupal/robots.txt && ln -s /volume/robots.txt /var/www/drupal/robots.txt
 
 ADD config/nginx.conf /etc/nginx/nginx.conf
