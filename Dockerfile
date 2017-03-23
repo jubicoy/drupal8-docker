@@ -71,4 +71,4 @@ RUN sed -i '/post_max_size/c\post_max_size = 250M' /etc/php/7.0/fpm/php.ini
 EXPOSE 5000
 EXPOSE 5005
 
-USER 104
+USER 100104
