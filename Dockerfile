@@ -14,7 +14,7 @@ RUN cp -rf /var/www/drupal/sites/default /tmp/
 RUN cp -f /var/www/drupal/robots.txt /workdir/
 
 # Composer for Sabre installation
-ENV COMPOSER_VERSION 1.0.0-alpha11
+ENV COMPOSER_VERSION 1.4.1
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer --version=${COMPOSER_VERSION}
 
 # WebDAV configuration
