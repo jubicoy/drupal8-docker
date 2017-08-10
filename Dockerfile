@@ -30,7 +30,6 @@ RUN cd /var/www/webdav && composer require sabre/dav ~3.1.0 && composer update s
 ADD config/default.conf /workdir/default.conf
 RUN rm -rf /etc/nginx/conf.d/default.conf && ln -s /volume/conf/default.conf /etc/nginx/conf.d/default.conf
 RUN mv /etc/php/7.0/fpm/php.ini /tmp/php.ini
-ADD entrypoint.sh /workdir/entrypoint.sh
 
 RUN mkdir /workdir/drupal-config && chmod 777 /workdir/drupal-config
 ADD config/drupal-cache-config/* /workdir/drupal-config/
@@ -46,8 +45,6 @@ RUN ln -s /volume/conf/php.ini /etc/php/7.0/fpm/php.ini
 
 ADD config/nginx.conf /etc/nginx/nginx.conf
 
-RUN chown -R 104:0 /var/www && chmod -R g+rw /var/www && \
-    chmod a+x /workdir/entrypoint.sh && chmod g+rw /workdir
 
 VOLUME ["/volume"]
 
@@ -69,6 +66,10 @@ RUN echo 'extension="jsmin.so"' >> /tmp/php.ini
 # PHP max upload size
 RUN sed -i '/upload_max_filesize/c\upload_max_filesize = 250M' /tmp/php.ini
 RUN sed -i '/post_max_size/c\post_max_size = 250M' /tmp/php.ini
+
+ADD entrypoint.sh /workdir/entrypoint.sh
+RUN chown -R 104:0 /var/www && chmod -R g+rw /var/www && \
+    chmod a+x /workdir/entrypoint.sh && chmod g+rw /workdir
 
 EXPOSE 5000
 EXPOSE 5005

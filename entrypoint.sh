@@ -70,7 +70,7 @@ if [ ! -f /volume/conf/default.conf ]; then
   mv /workdir/default.conf /volume/conf/default.conf
 fi
 
-if [ -f /volume/conf/php.ini ]; then
+if [ ! -f /volume/conf/php.ini ]; then
   mv /tmp/php.ini /volume/conf/php.ini
 fi
 
