@@ -70,6 +70,10 @@ if [ ! -f /volume/conf/default.conf ]; then
   mv /workdir/default.conf /volume/conf/default.conf
 fi
 
+if [ -f /volume/conf/php.ini ]; then
+  mv /tmp/php.ini /volume/conf/php.ini
+fi
+
 if [ ! -f /tmp/dav_auth ]; then
   # Create WebDAV Basic auth user
   echo ${DAV_PASS}|htpasswd -i -c /tmp/dav_auth ${DAV_USER}

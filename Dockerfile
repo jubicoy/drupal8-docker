@@ -29,6 +29,7 @@ RUN cd /var/www/webdav && composer require sabre/dav ~3.1.0 && composer update s
 # Add configuration files
 ADD config/default.conf /workdir/default.conf
 RUN rm -rf /etc/nginx/conf.d/default.conf && ln -s /volume/conf/default.conf /etc/nginx/conf.d/default.conf
+RUN mv /etc/php/7.0/fpm/php.ini /tmp/php.ini
 ADD entrypoint.sh /workdir/entrypoint.sh
 
 RUN mkdir /workdir/drupal-config && chmod 777 /workdir/drupal-config
@@ -41,6 +42,7 @@ RUN ln -s /volume/modules/ /var/www/drupal/modules
 RUN ln -s /volume/default/ /var/www/drupal/sites/default
 RUN ln -s /volume/libraries/ /var/www/drupal/libraries
 RUN rm -rf /var/www/drupal/robots.txt && ln -s /volume/robots.txt /var/www/drupal/robots.txt
+RUN ln -s /volume/conf/php.ini /etc/php/7.0/fpm/php.ini
 
 ADD config/nginx.conf /etc/nginx/nginx.conf
 
@@ -62,11 +64,11 @@ RUN chmod a+x /workdir/drush_install.sh && bash /workdir/drush_install.sh
 RUN git clone -b feature/php7 https://github.com/sqmk/pecl-jsmin.git /workdir/pecl-jsmin
 RUN (cd /workdir/pecl-jsmin && phpize && ./configure && make install clean)
 RUN touch /etc/php/7.0/cli/conf.d/20-jsmin.ini && echo 'extension="jsmin.so"' >> /etc/php/7.0/cli/conf.d/20-jsmin.ini
-RUN echo 'extension="jsmin.so"' >> /etc/php/7.0/fpm/php.ini
+RUN echo 'extension="jsmin.so"' >> /tmp/php.ini
 
 # PHP max upload size
-RUN sed -i '/upload_max_filesize/c\upload_max_filesize = 250M' /etc/php/7.0/fpm/php.ini
-RUN sed -i '/post_max_size/c\post_max_size = 250M' /etc/php/7.0/fpm/php.ini
+RUN sed -i '/upload_max_filesize/c\upload_max_filesize = 250M' /tmp/php.ini
+RUN sed -i '/post_max_size/c\post_max_size = 250M' /tmp/php.ini
 
 EXPOSE 5000
 EXPOSE 5005
