@@ -1,12 +1,13 @@
 FROM jubicoy/nginx-php:php7
-ENV DRUPAL_VERSION 8.3.6
+ENV DRUPAL_VERSION 8.3.7
 
 RUN apt-get update && \
     apt-get -y install php7.0-fpm php-apcu php7.0-mysql \
     php-imagick php7.0-imap php7.0-mcrypt php7.0-curl php7.0-dev \
     php7.0-cli php7.0-gd php7.0-pgsql php7.0-sqlite php7.0-zip \
     php7.0-common php-pear curl php7.0-json php-redis php-memcache php7.0-mbstring \
-    gzip netcat mysql-client wget git
+    gzip netcat mysql-client wget git apache2-utils && \
+    rm -rf /var/lib/apt/lists/*
 
 RUN curl -k https://ftp.drupal.org/files/projects/drupal-${DRUPAL_VERSION}.tar.gz | tar zx -C /var/www/
 RUN mv /var/www/drupal-${DRUPAL_VERSION} /var/www/drupal
@@ -18,7 +19,7 @@ ENV COMPOSER_VERSION 1.4.1
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer --version=${COMPOSER_VERSION}
 
 # WebDAV configuration
-RUN apt-get install -y apache2-utils
+#RUN apt-get install -y apache2-utils
 RUN mkdir -p /var/www/webdav && mkdir -p /var/www/webdav/locks && chmod -R 777 /var/www/webdav/locks
 ADD config/webdav.conf /etc/nginx/conf.d/webdav.conf
 ADD sabre/index.php /var/www/webdav/index.php
