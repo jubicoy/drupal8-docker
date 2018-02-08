@@ -25,7 +25,6 @@ RUN apt-get update \
       php7.0-pgsql \
       php7.0-sqlite \
       php7.0-zip \
-      php-apcu \
       php-imagick \
       php-memcache \
       php-pear \
@@ -82,6 +81,20 @@ RUN chmod a+x /workdir/mailchimp-ca.sh \
 
 # Install drush
 RUN composer global require drush/drush:9.1.0
+
+# Install latest APCu module
+RUN mkdir -p /tmp/apcu-build \
+  && cd /tmp/apcu-build \
+  && git clone https://github.com/krakjoe/apcu \
+  && cd apcu \
+  && git checkout v5.1.9 \
+  && phpize7.0 \
+  && ./configure --with-php-config=/usr/bin/php-config7.0 \
+  && make \
+  && TEST_PHP_ARGS='-n' make test \
+  && make install \
+  && cd \
+  && rm -rf /tmp/apcu-build
 
 # Install jsmin php extension
 RUN git clone -b feature/php7 https://github.com/sqmk/pecl-jsmin.git /workdir/pecl-jsmin \
